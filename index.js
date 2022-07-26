@@ -15,6 +15,22 @@ class Graph {
     }
   }
 
+  dfs_helper(node, visited, path) {
+    visited[node] = true;
+    path.push(node);
+    for (let nbr of this.vertices[node]) {
+      if (!visited[nbr]) this.dfs_helper(nbr, visited, path);
+    }
+    return;
+  }
+
+  dfs(src) {
+    let visited = Array(this.n).fill(false);
+    let path = [];
+    this.dfs_helper(src, visited, path);
+    return path;
+  }
+
   bfs(src, dest) {
     let queue = [];
     let visited = Array(this.n).fill(false);
@@ -74,35 +90,36 @@ function min_dice_throws(n, snakes, ladders) {
   return g.bfs(1, n);
 }
 
-let result = min_dice_throws(
-  36,
-  [
-    [17, 4],
-    [20, 6],
-    [34, 12],
-    [24, 16],
-    [32, 30],
-  ],
-  [
-    [2, 15],
-    [5, 7],
-    [9, 27],
-    [18, 29],
-    [25, 35],
-  ]
-);
+// let result = min_dice_throws(
+//   36,
+//   [
+//     [17, 4],
+//     [20, 6],
+//     [34, 12],
+//     [24, 16],
+//     [32, 30],
+//   ],
+//   [
+//     [2, 15],
+//     [5, 7],
+//     [9, 27],
+//     [18, 29],
+//     [25, 35],
+//   ]
+// );
 
-console.log('solution -> ', result);
+// console.log('solution -> ', result);
 
-// let graph = new Graph(36);
+let graph = new Graph(5);
 
-// let edges = [
-//   [1, 2],
-//   [3, 4],
-//   [0, 4],
-//   [4, 1],
-// ];
-// for (let [from, to] of edges) {
-//   graph.addEdge(from, to);
-// }
+let edges = [
+  [1, 2],
+  [3, 4],
+  [0, 4],
+  [4, 1],
+];
+for (let [from, to] of edges) {
+  graph.addEdge(from, to, true);
+}
 // graph.printGraph();
+console.log(graph.dfs(1));
